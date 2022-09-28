@@ -26,6 +26,7 @@ const EndGameScreen = styled.div`
     height: 100vh;
     background-color: rgba(45, 24, 24, 0.76);
     display: flex;
+    justify-content: center;
     flex-direction: column;
     align-items: center;
 
@@ -40,6 +41,7 @@ const EndGameScreen = styled.div`
         color: white;
         font-size: 34px;
         font-family: "Recursive";
+        max-width: 300px;
         width: 80%;
 
     }
@@ -55,6 +57,7 @@ const EndGameScreen = styled.div`
         font-family: "Recursive";
         border-radius: 15px;
         border: none;
+        margin-bottom: 200px;
         img{
             margin-top: 0;
             width: 60px;

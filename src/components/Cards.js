@@ -23,7 +23,7 @@ export default function Cards(props) {
 			{cardState === "loaded" ? (
 				<LoadedCard setCardState={setCardState} cardNumber={cardNumber} />
 			) : cardState === "flipped" ? (
-				<FlippedCard setCardState={setCardState} question={cardObject.q} />
+				<FlippedCard data-identifier="flashcard-index-item" setCardState={setCardState} question={cardObject.q} />
 			) : cardState === "flippedAnswered" ? (
 				<FlippedCardAnswered
 					questionsArr={questionsArr}
@@ -43,9 +43,9 @@ export default function Cards(props) {
 
 function LoadedCard(props) {
 	return (
-		<LoadedCardComponent>
+		<LoadedCardComponent data-identifier="flashcard-index-item">
 			<p>Question {props.cardNumber + 1}</p>
-			<BsPlay onClick={(e) => props.setCardState("flipped")}></BsPlay>
+			<BsPlay data-identifier="flashcard-show-btn" onClick={(e) => props.setCardState("flipped")}></BsPlay>
 		</LoadedCardComponent>
 	);
 }
@@ -80,6 +80,7 @@ function FlippedCard(props) {
 			<p>{props.question}</p>
 			<div>
 				<img
+                    data-identifier="flashcard-turn-btn"
 					onClick={(e) => props.setCardState("flippedAnswered")}
 					src={LoopArrow}
 					alt=""
@@ -122,10 +123,11 @@ const FlippedCardComponent = styled.div`
 
 function FlippedCardAnswered(props) {
 	return (
-		<FlippedCardAnsweredComponent>
+		<FlippedCardAnsweredComponent data-identifier="flashcard-answer">
 			<p>{props.answer}</p>
 			<div>
 				<button
+                    data-identifier="forgot-btn"
 					onClick={() => {
 						props.setCompleted((old) => old + 1);
 						props.setQuestionsArr((old) => {
@@ -139,6 +141,7 @@ function FlippedCardAnswered(props) {
 					Forgot
 				</button>
 				<button
+                    data-identifier="almost-forgot-btn"
 					onClick={() => {
 						props.setCompleted((old) => old + 1);
 						props.setQuestionsArr((old) => {
@@ -152,6 +155,7 @@ function FlippedCardAnswered(props) {
 					Almost forgot!
 				</button>
 				<button
+                    data-identifier="zap-btn"
 					onClick={() => {
 						props.setCompleted((old) => old + 1);
 						props.setNumOfRightAnswers((old) => old + 1);
@@ -223,12 +227,13 @@ function AnsweredCard(props) {
 
 	return (
 		<AnsweredCardComponent
+            data-identifier="flashcard-index-item"
 			colors={colors}
 			answer={answer}>
 			<p>
-				Question {props.cardNumber + 1} {props.questionsArr[props.cardNumber]}
+				Question {props.cardNumber + 1}
 			</p>
-			<img src={pictures[answer]} alt="" />
+			<img data-identifier="flashcard-status" src={pictures[answer]} alt="" />
 		</AnsweredCardComponent>
 	);
 }

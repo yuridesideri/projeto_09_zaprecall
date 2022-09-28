@@ -67,9 +67,9 @@ function SecondPage(props) {
 			<label>
 				{" "}
 				Choose a Deck:
-				<select onChange={(e) => setDeckInput(e.target.value)} placeholder="Choose a deck">
+				<select data-identifier="deck-selector" onChange={(e) => setDeckInput(e.target.value)} placeholder="Choose a deck">
 					{props.decks.map((el, ind) => (
-						<option key={`Deck${ind}`} value={ind}>
+						<option data-identifier="deck-option" key={`Deck${ind}`} value={ind}>
 							Deck {ind + 1}
 						</option>
 					))}
@@ -91,7 +91,7 @@ function SecondPage(props) {
 			<label className="zaps">
 				{" "}
 				Number of Zapps:
-				<select onChange={(e) => setZapsInput(e.target.value)} placeholder="Choose a deck">
+				<select data-identifier="goals-input" onChange={(e) => setZapsInput(e.target.value)} placeholder="Choose a deck">
 					{[...Array(parseInt(questionsInput))].map((el, ind) => (
 						<option key={`Zap${ind}`} value={ind}>
 							{ind + 1}
@@ -100,6 +100,7 @@ function SecondPage(props) {
 				</select>
 			</label>
 			<button
+                data-identifier="start-btn"
 				onClick={(e) => {
 					props.setDeck(decks[deckInput]);
 					props.setNumOfQ(questionsInput);

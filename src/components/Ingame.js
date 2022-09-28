@@ -10,7 +10,6 @@ export default function Ingame(props) {
 	const { cards, questionsArr, setQuestionsArr } = props;
 	const [completed, setCompleted] = useState(0);
 
-	useEffect(() => console.log(questionsArr), [questionsArr]);
 
     useEffect(()=>{
         if (questionsArr !== null){
@@ -29,7 +28,8 @@ export default function Ingame(props) {
 			<div>
 				{questionsArr !== null ? questionsArr.map((el, ind) => (
 					<Cards
-						key={`Card-${ind * 2  + useId}`}
+                        data-identifier="flashcard"
+						key={`flashcard-${ind * 2  + useId}`}
 						setCompleted={setCompleted}
 						setNumOfRightAnswers={props.setNumOfRightAnswers}
 						cardNumber={ind}
@@ -39,7 +39,7 @@ export default function Ingame(props) {
 					/>
 				)): <></>}
 			</div>
-			<footer>
+			<footer data-identifier="flashcard-counter">
 				<p>
 					{completed}/{cards.length} Completed{" "}
 				</p>

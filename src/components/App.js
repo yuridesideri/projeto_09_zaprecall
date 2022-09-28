@@ -44,9 +44,6 @@ export default function App() {
 		}
 	},[cards])
 
-	useEffect(()=> {
-		console.log(numOfZ);
-	},[numOfZ])
 	return (
 		<>
 			{gameState === "startGame" ? (
