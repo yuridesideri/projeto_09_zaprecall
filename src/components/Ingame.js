@@ -12,6 +12,14 @@ export default function Ingame(props) {
 
 	useEffect(() => console.log(questionsArr), [questionsArr]);
 
+    useEffect(()=>{
+        if (questionsArr !== null){
+            if (completed === questionsArr.length){
+                props.setGameState('endGame');
+            }
+        }
+    })
+
 	return (
 		<GameBox>
 			<header>
@@ -84,6 +92,7 @@ const GameBox = styled.div`
 	footer {
 		background-color: white;
 		position: fixed;
+        z-index: 2;
 		bottom: 0;
 		height: 100px;
 		width: 100%;

@@ -15,8 +15,6 @@ export default function App() {
 	const [questionsArr, setQuestionsArr] = useState(null)
 
 	useEffect(() => {
-		console.log(deck);
-		console.log(numOfQ);
 		if (deck && numOfQ >= 4 && numOfQ <= 8) {
 			setGameState("inGame");
 		}
@@ -46,6 +44,9 @@ export default function App() {
 		}
 	},[cards])
 
+	useEffect(()=> {
+		console.log(numOfZ);
+	},[numOfZ])
 	return (
 		<>
 			{gameState === "startGame" ? (
@@ -58,9 +59,9 @@ export default function App() {
 					setDeck={setDeck}
 				/>
 			) : (
-				<Ingame questionsArr={questionsArr} setQuestionsArr={setQuestionsArr} cards={cards} setNumOfRightAnswers={setNumOfRightAnswers} />
+				<Ingame questionsArr={questionsArr} setQuestionsArr={setQuestionsArr} cards={cards} setNumOfRightAnswers={setNumOfRightAnswers} setGameState={setGameState}/>
 			)}
-			{gameState === "endGame" ? <Endgame numOfRightAnswers={numOfRightAnswers} /> : <></>}
+			{gameState === "endGame" ? <Endgame numOfZ={numOfZ} numOfQ={numOfQ} numOfRightAnswers={numOfRightAnswers} /> : <></>}
 		</>
 	);
 }

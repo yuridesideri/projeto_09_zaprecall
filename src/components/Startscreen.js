@@ -103,7 +103,7 @@ function SecondPage(props) {
 				onClick={(e) => {
 					props.setDeck(decks[deckInput]);
 					props.setNumOfQ(questionsInput);
-					props.setNumOfZ(zapsInput);
+					props.setNumOfZ(parseInt(zapsInput));
 				}}>
 				Start Recall!
 			</button>
