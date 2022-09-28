@@ -1,14 +1,16 @@
 import logo from "../assets/img/logo.svg";
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import Cards from "./Cards";
+import RightIcon from "../assets/img/right-icon.svg";
+import WrongIcon from "../assets/img/wrong-icon.svg";
+import DoubtIcon from "../assets/img/doubt-icon.svg";
 
 export default function Ingame(props) {
-	const { cards } = props;
+	const { cards, questionsArr, setQuestionsArr } = props;
 	const [completed, setCompleted] = useState(0);
-    const [questionsArr, setQuestionsArr] = useState([...Array(cards.length)])
 
-    useEffect(()=> console.log(questionsArr), [questionsArr])
+	useEffect(() => console.log(questionsArr), [questionsArr]);
 
 	return (
 		<GameBox>
@@ -17,22 +19,35 @@ export default function Ingame(props) {
 				<p>ZapRecall</p>
 			</header>
 			<div>
-				{questionsArr.map((el, ind) => (
+				{questionsArr !== null ? questionsArr.map((el, ind) => (
 					<Cards
-						key={`Card-${ind * 2}`}
+						key={`Card-${ind * 2  + useId}`}
 						setCompleted={setCompleted}
 						setNumOfRightAnswers={props.setNumOfRightAnswers}
 						cardNumber={ind}
 						cardObject={cards[ind]}
-                        setQuestionsArr={setQuestionsArr}
-                        questionsArr={questionsArr}
+						setQuestionsArr={setQuestionsArr}
+						questionsArr={questionsArr}
 					/>
-				))}
+				)): <></>}
 			</div>
 			<footer>
 				<p>
 					{completed}/{cards.length} Completed{" "}
 				</p>
+				<div>
+					{questionsArr !== null? questionsArr.map((el) =>
+						el === undefined ? (
+							<div />
+						) : el === "right" ? (
+							<img src={RightIcon} alt="" />
+						) : el === "doubt" ? (
+							<img src={DoubtIcon} alt="" />
+						) : el === "wrong" ? (
+							<img src={WrongIcon} alt="" />
+						) : undefined
+					) : undefined}
+				</div>
 			</footer>
 		</GameBox>
 	);
@@ -74,6 +89,7 @@ const GameBox = styled.div`
 		width: 100%;
 		box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-items: center;
 		p {
@@ -83,5 +99,20 @@ const GameBox = styled.div`
 			font-size: 18px;
 			line-height: 22px;
 		}
+        div{
+            display: flex !important;
+            flex-direction: row;
+            img{
+                margin: 0 5px 0 5px;
+            }
+            div{
+                border-radius: 32px;
+                border: solid 1px lightgray;
+                width: 23px;
+                height: 23px;
+                margin: 0 5px 0 5px;
+            }
+        }
+
 	}
 `;

@@ -4,6 +4,7 @@ import Endgame from "./Endgame";
 import Ingame from "./Ingame";
 import { decks } from "../assets/decks.js";
 
+
 export default function App() {
 	const [gameState, setGameState] = useState("startGame");
 	const [deck, setDeck] = useState(null);
@@ -11,6 +12,7 @@ export default function App() {
 	const [numOfQ, setNumOfQ] = useState(0);
 	const [numOfZ, setNumOfZ] = useState(0);
 	const [numOfRightAnswers, setNumOfRightAnswers] = useState(0);
+	const [questionsArr, setQuestionsArr] = useState(null)
 
 	useEffect(() => {
 		console.log(deck);
@@ -21,16 +23,28 @@ export default function App() {
 	}, [deck, numOfQ]);
 
 	useEffect(() => {
-		if (deck && deck.length !== parseInt(numOfQ)) {
+		if (deck && deck.length >= parseInt(numOfQ)) {
 			const cloneDeck = [...deck];
-			console.log(cloneDeck);
-			for (let i = 0; i < deck.length - numOfQ; i++) {
-				const index = Math.floor(Math.random() * cloneDeck);
+			for (let i = 0; i < 10; i++)
+			{
+				const ind = Math.floor(Math.random() * cloneDeck.length);
+				const tmp = cloneDeck[0];
+				cloneDeck[0] = cloneDeck[ind];
+				cloneDeck[ind] = tmp;
+			}
+			for (let i = 0; i < deck.length - parseInt(numOfQ); i++) {
+				const index = Math.floor(Math.random() * cloneDeck.length);
 				cloneDeck.splice(index, 1);
 			}
 			setCards(cloneDeck);
 		}
 	}, [numOfQ, deck]); //Está gerando sempre as mesmas perguntas
+
+	useEffect(() => {
+		if (cards !== null){
+			setQuestionsArr([...Array(cards.length)]);
+		}
+	},[cards])
 
 	return (
 		<>
@@ -44,7 +58,7 @@ export default function App() {
 					setDeck={setDeck}
 				/>
 			) : (
-				<Ingame cards={cards} setNumOfRightAnswers={setNumOfRightAnswers} />
+				<Ingame questionsArr={questionsArr} setQuestionsArr={setQuestionsArr} cards={cards} setNumOfRightAnswers={setNumOfRightAnswers} />
 			)}
 			{gameState === "endGame" ? <Endgame numOfRightAnswers={numOfRightAnswers} /> : <></>}
 		</>

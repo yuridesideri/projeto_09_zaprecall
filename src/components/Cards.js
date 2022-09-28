@@ -2,9 +2,19 @@ import { useState } from "react";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
 import LoopArrow from "../assets/img/setinha.svg";
+import RightIcon from "../assets/img/right-icon.svg";
+import WrongIcon from "../assets/img/wrong-icon.svg";
+import DoubtIcon from "../assets/img/doubt-icon.svg";
 
 export default function Cards(props) {
-	const { cardNumber, cardObject, setNumOfRightAnswers, setCompleted, setQuestionsArr, questionsArr } = props; // 0 notation
+	const {
+		cardNumber,
+		cardObject,
+		setNumOfRightAnswers,
+		setCompleted,
+		setQuestionsArr,
+		questionsArr
+	} = props; // 0 notation
 
 	const [cardState, setCardState] = useState("loaded");
 
@@ -13,12 +23,17 @@ export default function Cards(props) {
 			{cardState === "loaded" ? (
 				<LoadedCard setCardState={setCardState} cardNumber={cardNumber} />
 			) : cardState === "flipped" ? (
-				<FlippedCard
-					setCardState={setCardState}
-					question={cardObject.q}
-				/>
+				<FlippedCard setCardState={setCardState} question={cardObject.q} />
 			) : cardState === "flippedAnswered" ? (
-				<FlippedCardAnswered questionsArr={questionsArr} cardNumber={cardNumber} setNumOfRightAnswers={setNumOfRightAnswers} setCompleted={setCompleted} setCardState={setCardState} answer={cardObject.a} setQuestionsArr={setQuestionsArr}/>
+				<FlippedCardAnswered
+					questionsArr={questionsArr}
+					cardNumber={cardNumber}
+					setNumOfRightAnswers={setNumOfRightAnswers}
+					setCompleted={setCompleted}
+					setCardState={setCardState}
+					answer={cardObject.a}
+					setQuestionsArr={setQuestionsArr}
+				/>
 			) : cardState === "answered" ? (
 				<AnsweredCard questionsArr={questionsArr} cardNumber={cardNumber} />
 			) : null}
@@ -106,20 +121,18 @@ const FlippedCardComponent = styled.div`
 `;
 
 function FlippedCardAnswered(props) {
-
-
-
 	return (
 		<FlippedCardAnsweredComponent>
 			<p>{props.answer}</p>
 			<div>
 				<button
 					onClick={() => {
-                        props.setCompleted(old => old + 1);
-                        props.setQuestionsArr(old => {
-                            const [...newArr] = props.questionsArr;
-                            newArr.splice(props.cardNumber, 1, 'wrong');
-                            return newArr})
+						props.setCompleted((old) => old + 1);
+						props.setQuestionsArr((old) => {
+							const [...newArr] = props.questionsArr;
+							newArr.splice(props.cardNumber, 1, "wrong");
+							return newArr;
+						});
 						props.setCardState("answered");
 					}}
 					className="forgot-button">
@@ -127,11 +140,12 @@ function FlippedCardAnswered(props) {
 				</button>
 				<button
 					onClick={() => {
-                        props.setCompleted(old => old + 1);
-                        props.setQuestionsArr(old => {
-                            const [...newArr] = props.questionsArr;
-                            newArr.splice(props.cardNumber, 1, 'doubt');
-                            return newArr})
+						props.setCompleted((old) => old + 1);
+						props.setQuestionsArr((old) => {
+							const [...newArr] = props.questionsArr;
+							newArr.splice(props.cardNumber, 1, "doubt");
+							return newArr;
+						});
 						props.setCardState("answered");
 					}}
 					className="almost-button">
@@ -139,12 +153,13 @@ function FlippedCardAnswered(props) {
 				</button>
 				<button
 					onClick={() => {
-                        props.setCompleted(old => old + 1);
-						props.setNumOfRightAnswers(old => old + 1);
-                        props.setQuestionsArr(old => {
-                            const [...newArr] = props.questionsArr;
-                            newArr.splice(props.cardNumber, 1, 'right');
-                            return newArr})
+						props.setCompleted((old) => old + 1);
+						props.setNumOfRightAnswers((old) => old + 1);
+						props.setQuestionsArr((old) => {
+							const [...newArr] = props.questionsArr;
+							newArr.splice(props.cardNumber, 1, "right");
+							return newArr;
+						});
 						props.setCardState("answered");
 					}}
 					className="remembered-button">
@@ -202,15 +217,24 @@ const FlippedCardAnsweredComponent = styled.div`
 `;
 
 function AnsweredCard(props) {
+    const colors = { right: "#2FBE34", wrong: "#FF3030", doubt: "#FF922E" }
+    const pictures = { right: RightIcon, wrong: WrongIcon, doubt: DoubtIcon }
+    const answer = props.questionsArr[props.cardNumber];
+
 	return (
-    <AnsweredCardComponent answer={props.questionsArr[props.cardNumber]}>
-            <p>Question {props.cardNumber + 1} {props.questionsArr[props.cardNumber]}</p>
-			<BsPlay></BsPlay>    
-    </AnsweredCardComponent>);
+		<AnsweredCardComponent
+			colors={colors}
+			answer={answer}>
+			<p>
+				Question {props.cardNumber + 1} {props.questionsArr[props.cardNumber]}
+			</p>
+			<img src={pictures[answer]} alt="" />
+		</AnsweredCardComponent>
+	);
 }
 
 const AnsweredCardComponent = styled.div`
-    width: 300px;
+	width: 300px;
 	height: 65px;
 	background-color: white;
 	box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
@@ -230,6 +254,8 @@ const AnsweredCardComponent = styled.div`
 		font-weight: 700;
 		font-size: 16px;
 		line-height: 19px;
-		color: #333333;
+		color: ${props => props.colors[props.answer] || 'black'};
+		text-decoration-line: line-through;
+		text-decoration-color: ${props => props.colors[props.answer] || 'black'};
 	}
 `;
