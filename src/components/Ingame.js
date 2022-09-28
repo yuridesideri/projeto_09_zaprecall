@@ -12,9 +12,11 @@ export default function Ingame(props) {
                 <img src={logo} alt="" />
                 <p>ZapRecall</p>
             </header>
-            {[...Array(cards.length)].map((el,ind)=>(<>
-                <Cards />
-            </>))}
+            <div>
+                {[...Array(cards.length)].map((el,ind)=>(<>
+                    <Cards cardNumber={ind}/>
+                </>))}
+            </div>
             <footer>
             <p>{completed}/{cards.length} Completed </p>
 
@@ -47,6 +49,11 @@ const GameBox = styled.div`
             width: 203px;
             height: 44px;
         }
+    }
+    div{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
     }
     footer{
         background-color: white;
