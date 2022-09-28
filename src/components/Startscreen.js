@@ -14,7 +14,7 @@ export default function Startscreen(props) {
 
     return (
         <>
-            {page === 'first-page' ? <FirstPage setUser={setUser} /> : <SecondPage decks={props.decks} setDeck={props.setDeck} user={user} startGame={props.setGameState}/>}
+            {page === 'first-page' ? <FirstPage setUser={setUser} /> : <SecondPage setNumOfZ={props.setNumOfZ} decks={props.decks} setNumOfQ={props.setNumOfQ} setDeck={props.setDeck} user={user} startGame={props.setGameState}/>}
         </>
     )
 };
@@ -22,7 +22,16 @@ export default function Startscreen(props) {
 
 function FirstPage (props) {
     const [input, setInput] = useState('');
-
+    
+    /* window.addEventListener('keydown', handleEvent)
+    function handleEvent(e){
+        console.log(e.keyCode);
+        if (e.keyCode === 13)
+        {
+            props.setUser(input);
+        }
+        window.removeEventListener('keydown', handleEvent);
+    } */
 
     return (
         
@@ -36,19 +45,30 @@ function FirstPage (props) {
 }
 
 function SecondPage (props) {
-    const [input, setInput] = useState(0);
-
+    const [deckInput, setDeckInput] = useState(0);
+    const [questionsInput, setQuestionsInput] = useState(4);
+    const [zapsInput, setZapsInput] = useState(0);
     return (
             <SecondPageBox >
                 <p>Welcome, {props.user}!</p>
                 <img src={logo} alt="" />
                 <p>ZapRecall</p>
                 <label> Choose a Deck:
-                    <select onChange={(e) => setInput(e.target.value)} placeholder="Choose a deck">
+                    <select onChange={(e) => setDeckInput(e.target.value)} placeholder="Choose a deck">
                     {props.decks.map((el, ind) => <option key={`Deck${ind}`} value={ind}>Deck {ind + 1}</option>)}
                     </select>
                 </label>
-                <button onClick={(e) => props.setDeck(decks[input])}>Start Recall!</button>
+                <label className="questions"> Number of Questions: 
+                    <select onChange={(e) => setQuestionsInput(e.target.value)} placeholder="Choose a deck">
+                    {decks[deckInput].slice(3).map((el, ind) => <option key={`Num${ind}`} value={ind+4}>{ind + 4}</option>)}
+                    </select>
+                </label>
+                <label className="zaps"> Number of Zapps: 
+                    <select onChange={(e) => setZapsInput(e.target.value)} placeholder="Choose a deck">
+                    {[...Array(parseInt(questionsInput))].map((el, ind) => <option key={`Zap${ind}`} value={ind}>{ind + 1}</option>)}
+                    </select>
+                </label>
+                <button onClick={(e) => {props.setDeck(decks[deckInput]); props.setNumOfQ(questionsInput); props.setNumOfZ(zapsInput)}}>Start Recall!</button>
             </SecondPageBox>
             )
 }
@@ -122,8 +142,8 @@ const SecondPageBox = styled.div`
     img{
         width: 136px;
         height: 161px;
-        margin-bottom: 50px;
-        margin-top: 40px;
+        margin-bottom: 40px;
+        margin-top: 30px;
     }
     p{
         width: 300px;
@@ -150,9 +170,22 @@ const SecondPageBox = styled.div`
             font-family: 'Righteous';
             text-align: center;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-
+            
         }
     }
+    .questions{
+        select{
+            width: 70px;
+        }
+    }
+
+    .zaps{
+        margin-bottom: 20px;
+        select{
+            width: 70px;
+        }
+    }
+
     button{
         margin-top: 10px;
         width: 246px;
@@ -170,5 +203,6 @@ const SecondPageBox = styled.div`
         color: #D70900;
         margin-bottom: 25px;
     }
+
     
 `
