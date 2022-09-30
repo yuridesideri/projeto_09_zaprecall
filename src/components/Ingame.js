@@ -5,6 +5,7 @@ import Cards from "./Cards";
 import RightIcon from "../assets/img/right-icon.svg";
 import WrongIcon from "../assets/img/wrong-icon.svg";
 import DoubtIcon from "../assets/img/doubt-icon.svg";
+import { LayoutGroup } from "framer-motion"
 
 export default function Ingame(props) {
 	const { cards, questionsArr, setQuestionsArr } = props;
@@ -14,7 +15,7 @@ export default function Ingame(props) {
     useEffect(()=>{
         if (questionsArr !== null){
             if (completed === questionsArr.length){
-                props.setGameState('endGame');
+                setTimeout(() => props.setGameState('endGame'), 1500) ;
             }
         }
     })
@@ -26,6 +27,7 @@ export default function Ingame(props) {
 				<p>ZapRecall</p>
 			</header>
 			<div>
+			<LayoutGroup>
 				{questionsArr !== null ? questionsArr.map((el, ind) => (
 					<Cards
                         data-identifier="flashcard"
@@ -38,6 +40,7 @@ export default function Ingame(props) {
 						questionsArr={questionsArr}
 					/>
 				)): <></>}
+			</LayoutGroup>
 			</div>
 			<footer data-identifier="flashcard-counter">
 				<p>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import styled from "styled-components";
 import { BsPlay } from "react-icons/bs";
+import { motion, AnimatePresence } from "framer-motion";
 import LoopArrow from "../assets/img/setinha.svg";
 import RightIcon from "../assets/img/right-icon.svg";
 import WrongIcon from "../assets/img/wrong-icon.svg";
@@ -17,15 +18,21 @@ export default function Cards(props) {
 	} = props; // 0 notation
 
 	const [cardState, setCardState] = useState("loaded");
+	
+	const animationDuration = 0.3;
 
 	return (
 		<>
+		<motion.div layout transition={{ duration: 0.3 }}>
+			<AnimatePresence mode='wait'>
+
 			{cardState === "loaded" ? (
-				<LoadedCard setCardState={setCardState} cardNumber={cardNumber} />
+				<LoadedCard key="0"  exit={{rotateX: 90, transition: {duration: animationDuration}}}  setCardState={setCardState} cardNumber={cardNumber}> </LoadedCard>
 			) : cardState === "flipped" ? (
-				<FlippedCard data-identifier="flashcard-index-item" setCardState={setCardState} question={cardObject.q} />
+				<FlippedCard key="1" initial={{rotateX: -90, 
+				height: 65}} animate={{rotateX: 0, transition:{duration: animationDuration}}} exit={{rotateX: 90, transition: {duration: animationDuration}}} data-identifier="flashcard-index-item" setCardState={setCardState} question={cardObject.q} />
 			) : cardState === "flippedAnswered" ? (
-				<FlippedCardAnswered
+				<FlippedCardAnswered key="2" initial={{rotateX: -90}} animate={{rotateX: 0, transition:{duration: animationDuration}}} exit={{rotateX: 90, transition: {duration: animationDuration}}}
 					questionsArr={questionsArr}
 					cardNumber={cardNumber}
 					setNumOfRightAnswers={setNumOfRightAnswers}
@@ -35,20 +42,24 @@ export default function Cards(props) {
 					setQuestionsArr={setQuestionsArr}
 				/>
 			) : cardState === "answered" ? (
-				<AnsweredCard questionsArr={questionsArr} cardNumber={cardNumber} />
+				<AnsweredCard key="3" initial={{rotateX: -90}} animate={{rotateX: 0, transition:{duration: animationDuration}}} exit={{rotateX: 90, transition: {duration: animationDuration}}} questionsArr={questionsArr} cardNumber={cardNumber} />
 			) : null}
+
+			</AnimatePresence>
+		</motion.div>
+			
 		</>
 	);
 }
 
-function LoadedCard(props) {
+const LoadedCard = motion(forwardRef((props, ref) => {
 	return (
-		<LoadedCardComponent data-identifier="flashcard-index-item">
+		<LoadedCardComponent ref={ref} data-identifier="flashcard-index-item">
 			<p>Question {props.cardNumber + 1}</p>
 			<BsPlay data-identifier="flashcard-show-btn" onClick={(e) => props.setCardState("flipped")}></BsPlay>
 		</LoadedCardComponent>
 	);
-}
+}))
 const LoadedCardComponent = styled.div`
 	width: 300px;
 	height: 65px;
@@ -74,9 +85,12 @@ const LoadedCardComponent = styled.div`
 	}
 `;
 
-function FlippedCard(props) {
+
+
+
+const FlippedCard = motion(forwardRef((props, ref) => {
 	return (
-		<FlippedCardComponent>
+		<FlippedCardComponent ref={ref}>
 			<p>{props.question}</p>
 			<div>
 				<img
@@ -88,7 +102,7 @@ function FlippedCard(props) {
 			</div>
 		</FlippedCardComponent>
 	);
-}
+}))
 const FlippedCardComponent = styled.div`
 	width: 300px;
 	min-height: 131px;
@@ -121,9 +135,11 @@ const FlippedCardComponent = styled.div`
 	}
 `;
 
-function FlippedCardAnswered(props) {
+
+
+const FlippedCardAnswered = motion(forwardRef((props, ref) => {
 	return (
-		<FlippedCardAnsweredComponent data-identifier="flashcard-answer">
+		<FlippedCardAnsweredComponent ref={ref} data-identifier="flashcard-answer">
 			<p>{props.answer}</p>
 			<div>
 				<button
@@ -172,7 +188,7 @@ function FlippedCardAnswered(props) {
 			</div>
 		</FlippedCardAnsweredComponent>
 	);
-}
+}))
 const FlippedCardAnsweredComponent = styled.div`
 	width: 300px;
 	min-height: 131px;
@@ -220,13 +236,15 @@ const FlippedCardAnsweredComponent = styled.div`
 	}
 `;
 
-function AnsweredCard(props) {
+
+
+const AnsweredCard = motion(forwardRef((props, ref) => {
     const colors = { right: "#2FBE34", wrong: "#FF3030", doubt: "#FF922E" }
     const pictures = { right: RightIcon, wrong: WrongIcon, doubt: DoubtIcon }
     const answer = props.questionsArr[props.cardNumber];
 
 	return (
-		<AnsweredCardComponent
+		<AnsweredCardComponent ref={ref}
             data-identifier="flashcard-index-item"
 			colors={colors}
 			answer={answer}>
@@ -236,8 +254,7 @@ function AnsweredCard(props) {
 			<img data-identifier="flashcard-status" src={pictures[answer]} alt="" />
 		</AnsweredCardComponent>
 	);
-}
-
+}))
 const AnsweredCardComponent = styled.div`
 	width: 300px;
 	height: 65px;
