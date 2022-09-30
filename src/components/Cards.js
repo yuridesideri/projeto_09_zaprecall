@@ -145,7 +145,7 @@ const FlippedCardAnswered = motion(forwardRef((props, ref) => {
 					onClick={() => {
 						props.setCompleted((old) => old + 1);
 						props.setQuestionsArr((old) => {
-							const [...newArr] = props.questionsArr;
+							const [...newArr] = old;
 							newArr.splice(props.cardNumber, 1, "wrong");
 							return newArr;
 						});
@@ -159,7 +159,7 @@ const FlippedCardAnswered = motion(forwardRef((props, ref) => {
 					onClick={() => {
 						props.setCompleted((old) => old + 1);
 						props.setQuestionsArr((old) => {
-							const [...newArr] = props.questionsArr;
+							const [...newArr] = old;
 							newArr.splice(props.cardNumber, 1, "doubt");
 							return newArr;
 						});
@@ -174,7 +174,7 @@ const FlippedCardAnswered = motion(forwardRef((props, ref) => {
 						props.setCompleted((old) => old + 1);
 						props.setNumOfRightAnswers((old) => old + 1);
 						props.setQuestionsArr((old) => {
-							const [...newArr] = props.questionsArr;
+							const [...newArr] = old;
 							newArr.splice(props.cardNumber, 1, "right");
 							return newArr;
 						});

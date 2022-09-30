@@ -47,15 +47,15 @@ export default function Ingame(props) {
 					{completed}/{cards.length} Completed{" "}
 				</p>
 				<div>
-					{questionsArr !== null? questionsArr.map((el) =>
+					{questionsArr !== null? questionsArr.map((el,ind) =>
 						el === undefined ? (
-							<div />
+							<div key={ind}/>
 						) : el === "right" ? (
-							<img src={RightIcon} alt="" />
+							<img key={ind} src={RightIcon} alt="" />
 						) : el === "doubt" ? (
-							<img src={DoubtIcon} alt="" />
+							<img key={ind} src={DoubtIcon} alt="" />
 						) : el === "wrong" ? (
-							<img src={WrongIcon} alt="" />
+							<img key={ind} src={WrongIcon} alt="" />
 						) : undefined
 					) : undefined}
 				</div>

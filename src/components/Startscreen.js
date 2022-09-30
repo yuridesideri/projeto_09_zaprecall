@@ -33,21 +33,19 @@ export default function Startscreen(props) {
 function FirstPage(props) {
 	const [input, setInput] = useState("");
 
-	/* window.addEventListener('keydown', handleEvent)
-    function handleEvent(e){
-        console.log(e.keyCode);
-        if (e.keyCode === 13)
-        {
-            props.setUser(input);
-        }
-        window.removeEventListener('keydown', handleEvent);
-    } */
-
+	function handleEvent(e){
+		if (e.keyCode === 13)
+		{
+			props.setUser(input);
+		}
+	}
+	
 	return (
 		<FirstPageBox>
 			<img src={logo} alt="" />
 			<p>ZapRecall</p>
 			<input
+				onKeyDown={handleEvent}
 				onChange={(e) => setInput(e.target.value)}
 				placeholder="Type in your name"></input>
 			<button onClick={(e) => props.setUser(input)}>Log In!</button>
