@@ -15,14 +15,13 @@ export default function Cards(props) {
 		setCompleted,
 		setQuestionsArr,
 		questionsArr
-	} = props; // 0 notation
+	} = props;
 
 	const [cardState, setCardState] = useState("loaded");
 	
 	const animationDuration = 0.3;
 
 	return (
-		<>
 		<motion.div layout transition={{ duration: 0.3 }}>
 			<AnimatePresence mode='wait'>
 
@@ -47,8 +46,7 @@ export default function Cards(props) {
 
 			</AnimatePresence>
 		</motion.div>
-			
-		</>
+
 	);
 }
 

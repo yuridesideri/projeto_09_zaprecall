@@ -1,6 +1,6 @@
 import logo from "../assets/img/logo.svg";
 import styled from "styled-components";
-import { useEffect, useState, useId } from "react";
+import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import RightIcon from "../assets/img/right-icon.svg";
 import WrongIcon from "../assets/img/wrong-icon.svg";
@@ -31,7 +31,7 @@ export default function Ingame(props) {
 				{questionsArr !== null ? questionsArr.map((el, ind) => (
 					<Cards
                         data-identifier="flashcard"
-						key={`flashcard-${ind * 2  + useId}`}
+						key={`flashcard-${ind}`}
 						setCompleted={setCompleted}
 						setNumOfRightAnswers={props.setNumOfRightAnswers}
 						cardNumber={ind}

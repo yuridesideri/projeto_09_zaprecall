@@ -50,7 +50,7 @@ function FirstPage(props) {
 			<input
 				onChange={(e) => setInput(e.target.value)}
 				placeholder="Type in your name"></input>
-			<button onClick={(e) => props.setUser(input)}>Iniciar Recall!</button>
+			<button onClick={(e) => props.setUser(input)}>Log In!</button>
 		</FirstPageBox>
 	);
 }
